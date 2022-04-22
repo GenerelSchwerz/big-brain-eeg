@@ -1,15 +1,15 @@
 from cortex2 import EmotivCortex2Client
-
+import time 
 url = "wss://localhost:6868"
 
 # Remember to start the Emotiv App before you start!
 # Start client with authentication
 client = EmotivCortex2Client(url,
-                             client_id='CLIENT_ID',
-                             client_secret="CLIENT_SECRET",
-                             check_response=True,
-                             authenticate=True,
-                             debug=False)
+                            client_id='0DyMfKwKuYAG72VKATaJUI51sEHlyGqpsTk19jPP',
+                            client_secret="Nv8JIEu7ew4zsdSbj1xha2vePzAr71JfYNi55oQDvnIOit4wSwctBIAha3XzLs4EbWR9R0ruo1gqUcUJ72UfKFnetgykJfkIfdW3OqqhZ4QcvUvIBmuZOiMBfJrGxk1F",
+                            check_response=True,
+                            authenticate=True,
+                            debug=False)
 
 # Test API connection by using the request access method
 client.request_access()
@@ -30,11 +30,13 @@ client.subscribe(streams=["mot", "com"])
 a = client.subscriber_messages_handled
 time.sleep(5)
 b = client.subscriber_messages_handled
-print((b - a) / 5)
+print("bruh", (b - a) / 5)
 
 # Grab a single instance of data
-print(client.receive_data())
+print("data", client.receive_data())
 
+
+counter = 0
 # Continously grab data, while making requests periodically
 while True:
     counter += 1
@@ -42,12 +44,12 @@ while True:
 
     if counter % 5000 == 0:
         print(client.request_access())
-        
+
     # Try stopping the subscriber thread
     if counter == 50000:
         client.stop_subscriber()
         break
-        
+
     try:
         # Check the latest data point from the motion stream, from the first session
         print(list(client.data_streams.values())[0]['mot'][0])
